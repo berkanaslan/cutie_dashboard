@@ -6,6 +6,11 @@ Credit card UI: https://github.com/berkanaslan/flutter_custom_credit_card_ui
 </br>
 Dots Indicator: https://github.com/berkanaslan/dots_indicator
 
+Menu             |  Dashboard
+:-------------------------:|:-------------------------:
+![Dashboard](https://raw.githubusercontent.com/berkanaslan/cutie_dashboard/master/ss/menu.gif)  |  ![Dashboard](https://raw.githubusercontent.com/berkanaslan/cutie_dashboard/master/ss/dashboard.gif)
+
+
 
 ## Getting Started
 
