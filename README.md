@@ -5,11 +5,6 @@ Menu and dashboard app with slider and more animations.
 Credit card UI: https://github.com/berkanaslan/flutter_custom_credit_card_ui
 Dots Indicator: https://github.com/berkanaslan/dots_indicator
 
-![Menu](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
-![Dashboard](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
-
-
-
 
 ## Getting Started
 
