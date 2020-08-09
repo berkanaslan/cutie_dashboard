@@ -1,8 +1,10 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_credit_card_ui/flutter_custom_credit_card_ui.dart';
 
-final Color bgColor = Color(0xFFFAFCFD);
+final Color bgColor = Color(0xFFFFFFFF);
+final Color shadowColor = Color(0xFFF5F7FA);
 final Color blackColor = Color(0xFF0A0A0F);
 final Color grayColor = Color(0xFFA3B1C5);
 final Color secondColor = Color(0xFF6B6E80);
@@ -20,10 +22,32 @@ class _MenuDashboardState extends State<MenuDashboard>
     with SingleTickerProviderStateMixin {
   double screenHeight, screenWidth;
   bool isMenuOpen = false;
+  final _pageController = PageController();
   AnimationController _controller;
   Animation<double> _scaleAnimation;
   Animation<Offset> _menuOffsetAnimation;
   final Duration _duration = Duration(milliseconds: 250);
+  List<Map<String, dynamic>> cardList = [
+    {
+      'cardNumber': '5571123456789000',
+      'cardHolder': 'Berkan ASLAN',
+      'month': 10,
+      'year': 2022
+    },
+    {
+      'cardNumber': '4698102030405060',
+      'cardHolder': 'Berkan ASLAN',
+      'month': 06,
+      'year': 2025
+    },
+    {
+      'cardNumber': '5351979852364165',
+      'cardHolder': 'Berkan ASLAN',
+      'month': 12,
+      'year': 2020
+    }
+  ];
+  double curentIndicatorValue = 0;
 
   @override
   void initState() {
@@ -64,53 +88,58 @@ class _MenuDashboardState extends State<MenuDashboard>
         padding: const EdgeInsets.only(left: 16.0),
         child: Align(
           alignment: Alignment(0, 0.2),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              buildMenuUserSection(),
-              FlatButton.icon(
-                onPressed: () {},
-                icon: Icon(Icons.account_balance_wallet, color: blackColor),
-                label: Text("Dashboard", style: textStyle),
-              ),
-              FlatButton.icon(
-                onPressed: () {},
-                icon: Icon(Icons.message, color: secondColor),
-                label: Text("Messages", style: textStyle.copyWith(color: secondColor)),
-              ),
-              FlatButton.icon(
-                onPressed: () {},
-                icon: Icon(Icons.assignment, color: secondColor),
-                label:
-                    Text("Utility Bills", style: textStyle.copyWith(color: secondColor)),
-              ),
-              FlatButton.icon(
-                onPressed: () {},
-                icon: Icon(Icons.compare_arrows, color: secondColor),
-                label:
-                    Text("Fund Transfer", style: textStyle.copyWith(color: secondColor)),
-              ),
-              FlatButton.icon(
-                onPressed: () {},
-                icon: Icon(Icons.account_balance, color: secondColor),
-                label: Text("Branches", style: textStyle.copyWith(color: secondColor)),
-              ),
-              SizedBox(height: 80),
-              FlatButton.icon(
-                onPressed: () {},
-                icon: Icon(Icons.arrow_forward, color: secondColor),
-                label: Text("Log out", style: textStyle.copyWith(color: secondColor)),
-              ),
-            ],
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _buildMenuUserSection(),
+                FlatButton.icon(
+                  onPressed: () {
+                    animateMenu();
+                  },
+                  icon: Icon(Icons.account_balance_wallet, color: blackColor),
+                  label: Text("Dashboard", style: textStyle),
+                ),
+                FlatButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.mail, color: secondColor),
+                  label: Text("Messages", style: textStyle.copyWith(color: secondColor)),
+                ),
+                FlatButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.assignment, color: secondColor),
+                  label: Text("Utility Bills",
+                      style: textStyle.copyWith(color: secondColor)),
+                ),
+                FlatButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.compare_arrows, color: secondColor),
+                  label: Text("Fund Transfer",
+                      style: textStyle.copyWith(color: secondColor)),
+                ),
+                FlatButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.account_balance, color: secondColor),
+                  label: Text("Branches", style: textStyle.copyWith(color: secondColor)),
+                ),
+                SizedBox(height: 80),
+                FlatButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.arrow_forward, color: secondColor),
+                  label: Text("Log out", style: textStyle.copyWith(color: secondColor)),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  UserAccountsDrawerHeader buildMenuUserSection() {
+   _buildMenuUserSection() {
     return UserAccountsDrawerHeader(
       decoration: BoxDecoration(color: null),
       currentAccountPicture: CircleAvatar(
@@ -141,51 +170,72 @@ class _MenuDashboardState extends State<MenuDashboard>
           elevation: 8.0,
           color: bgColor,
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Container(
               padding: EdgeInsets.only(left: 16, top: 8, right: 16),
               child: Column(
                 children: <Widget>[
-                  buildHeaderRow(),
-                  buildPageView(),
-                  buildTransactionsHeader(),
-                  buildTransactionDateRow("Today"),
-                  buildTransactionItem(
-                      "https://i.pinimg.com/originals/23/7d/da/237dda2ebb1b4d04bb989070f83735d8.png",
-                      "Coffee",
-                      "Starbucks",
-                      14,
-                      true),
-                  buildTransactionItem(
-                      "https://www.kindpng.com/picc/m/219-2197033_googleads-logo-google-ads-logo-circle-hd-png.png",
-                      "Ads",
-                      "Google",
-                      280,
-                      false),
-                  buildTransactionDateRow("Yesterday"),
-                  buildTransactionItem(
-                      "https://cdn1.iconfinder.com/data/icons/social-messaging-ui-color-shapes/128/store-circle-green-512.png",
-                      "Market",
-                      "Carrefour",
-                      332,
-                      true),
-                  buildTransactionItem(
-                      "https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/apple-512.png",
-                      "Airpods 2th Gen",
-                      "Apple",
-                      980,
-                      true),
-                  buildTransactionItem(
-                      "https://i.pinimg.com/originals/23/7d/da/237dda2ebb1b4d04bb989070f83735d8.png",
-                      "Coffee",
-                      "Starbucks",
-                      14,
-                      true),
-                  buildTransactionItem(
-                      "https://www.kindpng.com/picc/m/219-2197033_googleads-logo-google-ads-logo-circle-hd-png.png",
-                      "Ads",
-                      "Google",
-                      280,
-                      false),
+                  _buildHeaderRow(),
+                  _buildPageView(),
+                  SizedBox(height: 8),
+                  DotsIndicator(
+                    onTap: (page) {
+                      setState(() {
+                        _pageController.animateToPage(
+                          page.toInt(),
+                          duration: const Duration(milliseconds: 400),
+                          curve: Curves.easeInOut,
+                        );
+                      });
+                    },
+                    dotsCount: cardList.length,
+                    position: curentIndicatorValue,
+                    decorator: DotsDecorator(
+                      color: grayColor, // Inactive color
+                      activeColor: blackColor,
+                    ),
+                  ),
+                  _buildTransactionsHeader(),
+                  _buildTransactionDateRow("Today"),
+                  _buildTransactionItem(
+                      "assets/imgs/starbucks.png", "Coffee", "Starbucks", 14, true),
+                  _buildTransactionItem(
+                      "assets/imgs/ads.png", "Ads", "Google", 280, false),
+                  _buildTransactionDateRow("Yesterday"),
+                  _buildTransactionItem(
+                      "assets/imgs/market.png", "Market", "Carrefour", 332, true),
+                  _buildTransactionItem(
+                      "assets/imgs/apple.png", "Airpods 2th Gen", "Apple", 980, true),
+                  _buildTransactionItem(
+                      "assets/imgs/starbucks.png", "Coffee", "Starbucks", 8.50, true),
+                  _buildTransactionItem(
+                      "assets/imgs/ads.png", "Ads", "Google", 800, false),
+                  _buildTransactionDateRow("Wednesday"),
+                  _buildTransactionItem(
+                      "assets/imgs/apple.png", "Macbook Air 19", "Apple", 7980, true),
+                  _buildTransactionItem("assets/imgs/ads.png", "Ads", "Google", 32, false),
+                  _buildTransactionItem(
+                      "assets/imgs/starbucks.png", "Coffee", "Starbucks", 18.20, true),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, bottom: 16),
+                    child: Center(
+                      child: FlatButton(
+                        splashColor: shadowColor,
+                        highlightColor: shadowColor,
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0)),
+                        onPressed: () {
+                          debugPrint("Load more button tapped");
+                        },
+                        child: Text(
+                          "Load more",
+                          style: textStyle.copyWith(
+                              fontSize: 12, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -195,82 +245,75 @@ class _MenuDashboardState extends State<MenuDashboard>
     );
   }
 
-  Row buildTransactionDateRow(String date) {
+  void animateMenu() {
+    setState(() {
+      if (isMenuOpen) {
+        _controller.reverse();
+      } else {
+        _controller.forward();
+      }
+      isMenuOpen = !isMenuOpen;
+    });
+  }
+
+  _buildHeaderRow() {
     return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
-          child: Text(
-            date,
-            style: textStyle.copyWith(
-              fontSize: 16,
-              color: secondColor,
-            ),
+        InkWell(
+          child: Icon(
+            Icons.menu,
+            color: blackColor,
+            size: 32,
           ),
+          onTap: () {
+            animateMenu();
+          },
         ),
+        Image.asset(
+          "assets/imgs/logo.png",
+          height: 32,
+          fit: BoxFit.cover,
+        ),
+        //Text("My Cards", style: textStyle.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
+        InkWell(
+            child: Icon(
+              Icons.add,
+              color: blackColor,
+              size: 32,
+            ),
+            onTap: () {
+              debugPrint("Header add button tapped");
+            }),
       ],
     );
   }
 
-  ListTile buildTransactionItem(
-      String imgUrl, title, subtitle, int price, bool spending) {
-    return ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Colors.white,
-          backgroundImage: NetworkImage(imgUrl),
-        ),
-        title: Text(title,
-            style: textStyle.copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
-        subtitle: Text(
-          subtitle,
-          style: textStyle.copyWith(color: secondColor, fontSize: 14),
-        ),
-        trailing: spending
-            ? Text("-$price ₺",
-                style: textStyle.copyWith(
-                    color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold))
-            : Text("+$price ₺",
-                style: textStyle.copyWith(
-                    color: Colors.green, fontSize: 20, fontWeight: FontWeight.bold)));
-  }
-
-  Padding buildTransactionsHeader() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            "Transactions",
-            style: textStyle.copyWith(fontSize: 20),
-          ),
-          Icon(
-            Icons.more_horiz,
-            size: 32,
-            color: secondColor,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container buildPageView() {
+   _buildPageView() {
     return Container(
-      height: 208,
-      child: PageView(
+      height: 200,
+      child: PageView.builder(
         physics: BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          buildCreditCard("5571123456789000", "Berkan ASLAN", 10, 2022),
-          buildCreditCard("4698102030405060", "John DOE", 08, 2027),
-          buildCreditCard("5351979852364165", "Berkan ASLAN", 03, 2021),
-        ],
+        itemCount: cardList.length,
+        controller: _pageController,
+        itemBuilder: (BuildContext context, int index) {
+          return _buildCreditCard(
+              cardList[index]['cardNumber'],
+              cardList[index]['cardHolder'],
+              cardList[index]['month'],
+              cardList[index]['year']);
+        },
+        onPageChanged: (page) {
+          setState(() {
+            curentIndicatorValue = page.toDouble();
+          });
+        },
       ),
     );
   }
 
-  Center buildCreditCard(String _cardNumber, String _cardHolder, int _month, int _year) {
+   _buildCreditCard(String _cardNumber, String _cardHolder, int _month, int _year) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0),
@@ -287,42 +330,93 @@ class _MenuDashboardState extends State<MenuDashboard>
     );
   }
 
-  Row buildHeaderRow() {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        InkWell(
-          child: Icon(
-            Icons.menu,
-            color: blackColor,
-            size: 32,
+   _buildTransactionsHeader() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, right: 8),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            "Transactions",
+            style: textStyle.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          onTap: () {
-            setState(() {
-              if (isMenuOpen) {
-                _controller.reverse();
-              } else {
-                _controller.forward();
-              }
-              isMenuOpen = !isMenuOpen;
-            });
-          },
-        ),
-        Image.network(
-          "https://trypyramid.com/img/pyramid-logo-black-horizontal.png",
-          height: 32,
-          fit: BoxFit.cover,
-        ),
-        //Text("My Cards", style: menuTextStyle.copyWith(fontSize: 20)),
-        InkWell(
+          InkWell(
+            onTap: () {
+              debugPrint("Transaction filter icon tapped");
+            },
             child: Icon(
-              Icons.add,
+              Icons.compare_arrows,
+              size: 24,
               color: blackColor,
-              size: 32,
             ),
-            onTap: () {}),
+          ),
+        ],
+      ),
+    );
+  }
+
+   _buildTransactionDateRow(String date) {
+    return Row(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 8, top: 8, bottom: 8),
+          child: Text(
+            date,
+            style: textStyle.copyWith(
+              fontSize: 16,
+              color: secondColor,
+            ),
+          ),
+        ),
       ],
+    );
+  }
+
+   _buildTransactionItem(String imgUrl, title, subtitle, double price, bool spending) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: shadowColor,
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Theme(
+          data: ThemeData(
+              highlightColor: Colors.transparent, splashColor: Colors.transparent),
+          child: ListTile(
+              onTap: () {
+                debugPrint("Transaction items tapped");
+              },
+              leading: CircleAvatar(
+                backgroundColor: Colors.white,
+                backgroundImage: AssetImage(imgUrl),
+              ),
+              title: Text(title,
+                  style: textStyle.copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
+              subtitle: Text(
+                subtitle,
+                style: textStyle.copyWith(color: secondColor, fontSize: 14),
+              ),
+              trailing: spending
+                  ? Text("-$price ₺",
+                      style: textStyle.copyWith(
+                          color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold))
+                  : Text("+$price ₺",
+                      style: textStyle.copyWith(
+                          color: Colors.green,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold))),
+        ),
+      ),
     );
   }
 }

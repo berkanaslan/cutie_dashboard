@@ -71,6 +71,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.3"
+  dots_indicator:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: aa2e5f8fdf69f439f89bee0665e0026317e87f72
+      url: "git://github.com/berkanaslan/dots_indicator.git"
+    source: git
+    version: "1.2.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -79,9 +88,11 @@ packages:
   flutter_custom_credit_card_ui:
     dependency: "direct main"
     description:
-      name: flutter_custom_credit_card_ui
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "150f5974286ef94a4e7749d615679743e2f4752d"
+      url: "git://github.com/berkanaslan/flutter_custom_credit_card_ui.git"
+    source: git
     version: "0.0.1"
   flutter_test:
     dependency: "direct dev"
