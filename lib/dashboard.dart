@@ -70,6 +70,13 @@ class _MenuDashboardState extends State<MenuDashboard>
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: bgColor,
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          debugPrint("Floating action button");
+        },
+        child: Icon(Icons.compare_arrows),
+        backgroundColor: blackColor,
+      ),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -139,7 +146,7 @@ class _MenuDashboardState extends State<MenuDashboard>
     );
   }
 
-   _buildMenuUserSection() {
+  _buildMenuUserSection() {
     return UserAccountsDrawerHeader(
       decoration: BoxDecoration(color: null),
       currentAccountPicture: CircleAvatar(
@@ -213,7 +220,8 @@ class _MenuDashboardState extends State<MenuDashboard>
                   _buildTransactionDateRow("Wednesday"),
                   _buildTransactionItem(
                       "assets/imgs/apple.png", "Macbook Air 19", "Apple", 7980, true),
-                  _buildTransactionItem("assets/imgs/ads.png", "Ads", "Google", 32, false),
+                  _buildTransactionItem(
+                      "assets/imgs/ads.png", "Ads", "Google", 32, false),
                   _buildTransactionItem(
                       "assets/imgs/starbucks.png", "Coffee", "Starbucks", 18.20, true),
                   Padding(
@@ -290,7 +298,7 @@ class _MenuDashboardState extends State<MenuDashboard>
     );
   }
 
-   _buildPageView() {
+  _buildPageView() {
     return Container(
       height: 200,
       child: PageView.builder(
@@ -313,7 +321,7 @@ class _MenuDashboardState extends State<MenuDashboard>
     );
   }
 
-   _buildCreditCard(String _cardNumber, String _cardHolder, int _month, int _year) {
+  _buildCreditCard(String _cardNumber, String _cardHolder, int _month, int _year) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(top: 8.0),
@@ -330,7 +338,7 @@ class _MenuDashboardState extends State<MenuDashboard>
     );
   }
 
-   _buildTransactionsHeader() {
+  _buildTransactionsHeader() {
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8),
       child: Row(
@@ -356,7 +364,7 @@ class _MenuDashboardState extends State<MenuDashboard>
     );
   }
 
-   _buildTransactionDateRow(String date) {
+  _buildTransactionDateRow(String date) {
     return Row(
       children: <Widget>[
         Padding(
@@ -373,7 +381,7 @@ class _MenuDashboardState extends State<MenuDashboard>
     );
   }
 
-   _buildTransactionItem(String imgUrl, title, subtitle, double price, bool spending) {
+  _buildTransactionItem(String imgUrl, title, subtitle, double price, bool spending) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Container(

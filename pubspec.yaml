@@ -37,6 +37,7 @@ dependencies:
       url: git://github.com/berkanaslan/dots_indicator.git
       ref: master
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
