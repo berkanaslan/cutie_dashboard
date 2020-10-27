@@ -1,6 +1,6 @@
 # cutie_dashboard
 
-Menu and dashboard app with slider and more animations.
+Menu and dashboard app with slider and much animations.
 
 Credit card UI: https://github.com/berkanaslan/flutter_custom_credit_card_ui
 </br>
